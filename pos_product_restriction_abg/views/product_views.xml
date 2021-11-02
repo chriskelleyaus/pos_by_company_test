@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="product_template_search_view_pos" model="ir.ui.view">
+        <field name="name">product.template.pos.restriction.view.search</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="point_of_sale.product_template_search_view_pos"/>
+        <field name="arch" type="xml">
+            <filter name="filter_to_availabe_pos" position="attributes">
+               <attribute name="domain">[('available_in_pos_company', '=', True)]</attribute>
+            </filter>
+        </field>
+    </record>
+
+    <record id="point_of_sale.product_template_action_pos_product" model="ir.actions.act_window">
+        <field name="context" eval="{'search_default_filter_to_availabe_pos': 1, 'default_available_in_pos': True, 'default_available_in_pos_company': True}"/>
+    </record>
+
+    <record id="point_of_sale.product_product_action" model="ir.actions.act_window">
+        <field name="context" eval="{'search_default_filter_to_availabe_pos': 1, 'default_available_in_pos': True, 'default_available_in_pos_company': True}"/>
+    </record>
+
+    <record id="product_template_form_view" model="ir.ui.view">
+        <field name="name">product.template.pos.restriction.view.form</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="point_of_sale.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <field name="available_in_pos" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="available_in_pos" position="after">
+                <field name="available_in_pos_company"/>
+            </field>
+            <field name="pos_categ_id" position="attributes">
+                <attribute name="attrs">{'invisible': [('available_in_pos_company', '=', False)]}</attribute>
+            </field>
+            <field name="to_weight" position="attributes">
+                <attribute name="attrs">{'invisible': [('available_in_pos_company', '=', False)]}</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>
